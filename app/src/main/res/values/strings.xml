@@ -1,3 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">Resto</string>
+
+    <!-- Strings related to login & register -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="error_invalid_firstname">This first name is too short</string>
+    <string name="error_invalid_lastname">This last name is too short</string>
+    <string name="dialog_loading">Please wait while loading ...</string>
+    <string name="network_no_access">No Internet Connexion</string>
+
+    <string name="title_activity_location_found">Location Found</string>
+
 </resources>

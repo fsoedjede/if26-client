@@ -1,0 +1,9 @@
+<resources>
+    <string name="title_activity_register">Register</string>
+
+    <string name="prompt_lastname">Lastname</string>
+    <string name="prompt_firstname">Firstname</string>
+
+    <string name="action_register">Register</string>
+    <string name="action_sign_out_short">Register</string>
+</resources>

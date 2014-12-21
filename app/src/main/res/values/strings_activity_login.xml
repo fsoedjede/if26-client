@@ -1,0 +1,13 @@
+<resources>
+    <string name="title_activity_login">Sign in</string>
+
+    <string name="action_sign_in">Sign in</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="action_go_register">Not registered? <a href='#'>Click here</a></string>
+
+    <string name="content_invalid_login_settings">Invalid login settings</string>
+
+    <string name="content_description">Favicon</string>
+
+
+</resources>
