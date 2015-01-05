@@ -5,25 +5,24 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
+import org.json.JSONObject;
+
+import fr.utt.if26.resto.Model.User;
 import fr.utt.if26.resto.R;
+import fr.utt.if26.resto.Resto;
+import fr.utt.if26.resto.Service.Get;
+import fr.utt.if26.resto.Tools.Prefs;
 
 /**
  * Created by soedjede on 20/12/14
- *
+ * <p/>
  * Represents an asynchronous login task used to authenticate
  * the user.
  */
 public class UserLoginTask extends AsyncTask<String, Void, Boolean> {
 
     private Activity context;
-
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
+    private String result = null;
 
     private ProgressDialog dialog;
 
@@ -34,6 +33,7 @@ public class UserLoginTask extends AsyncTask<String, Void, Boolean> {
 
     protected void onPreExecute() {
         this.dialog.setMessage(context.getString(R.string.dialog_loading));
+        this.dialog.setCanceledOnTouchOutside(false);
         this.dialog.show();
     }
 
@@ -43,22 +43,12 @@ public class UserLoginTask extends AsyncTask<String, Void, Boolean> {
      */
     @Override
     protected Boolean doInBackground(String... params) {
-        // TODO: attempt authentication against a network service.
         try {
             // Simulate network access.
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
+            result = Get.get_string("/users/login/" + params[0] + "/" + params[1]);
+        } catch (Exception e) {
             return false;
         }
-
-        for (String credential : DUMMY_CREDENTIALS) {
-            String[] pieces = credential.split(":");
-            if (pieces[0].equals(params[0])) {
-                // Account exists, return true if the password matches.
-                return pieces[1].equals(params[1]);
-            }
-        }
-        // TODO: register the new account here.
         return true;
     }
 
@@ -69,7 +59,33 @@ public class UserLoginTask extends AsyncTask<String, Void, Boolean> {
         }
 
         if (success) {
-            context.finish();
+            if (result != null) {
+                try {
+                    JSONObject object = new JSONObject(result);
+                    try {
+                        String token = object.getString("token");
+                        String expires = object.getString("expires");
+                        JSONObject json_user = object.getJSONObject("user");
+                        User user = new User();
+                        user.JsonUserParse(json_user);
+                        Resto.user = user;
+
+                        Prefs prefs = new Prefs();
+                        prefs.setMyPrefs("token", token);
+                        prefs.setMyPrefs("expires", expires);
+                        prefs.setMyPrefs("user", json_user.toString());
+                        Toast.makeText(context, R.string.content_valid_login_settings, Toast.LENGTH_SHORT).show();
+                        context.finish();
+                    } catch (Exception ex) {
+                        Toast.makeText(context, R.string.error_unknown_source, Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception ex) {
+                    Toast.makeText(context, R.string.content_invalid_login_settings, Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(context, R.string.error_unknown_source, Toast.LENGTH_SHORT).show();
+            }
+            //context.finish();
         } else {
             Toast.makeText(context, R.string.content_invalid_login_settings, Toast.LENGTH_SHORT).show();
         }

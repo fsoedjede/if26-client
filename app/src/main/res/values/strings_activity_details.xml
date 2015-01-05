@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="content_resto_description_default">
+        Bougnat des Pouilles\n
+        Adresse : 29 rue Paillot de Montabert\n
+                  10000 - Troyes
+    </string>
+    <string name="content_item_call">Call</string>
+    <string name="content_item_directions">Directions</string>
+    <string name="content_item_website">Website</string>
+
+</resources>

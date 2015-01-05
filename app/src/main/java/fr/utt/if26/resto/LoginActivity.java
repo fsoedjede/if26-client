@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -32,8 +33,8 @@ public class LoginActivity extends ActionBarActivity{
         // Set up the login form.
         mEmailView = (EditText) findViewById(R.id.email);
         mPasswordView = (EditText) findViewById(R.id.password);
-        mEmailView.setText("foo@example.com");
-        mPasswordView.setText("hello");
+        mEmailView.setText("user1@example.com");
+        mPasswordView.setText("user1");
 
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
@@ -52,9 +53,20 @@ public class LoginActivity extends ActionBarActivity{
 
                 Resto.getContext().startActivity(intent);
                 finish();
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+                overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
             }
         });
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            //overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
+            overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_right);
+            return true;
+        }
+        return true;
     }
 
     /**

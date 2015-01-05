@@ -5,11 +5,16 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import fr.utt.if26.resto.Model.User;
+
 /**
  * Created by soedjede on 20/12/14 for Resto
  */
 public class Resto extends Application {
     private static Context appContext;
+
+    public static User user = null;
+    public static String server_address = "https://if26-server.herokuapp.com";
 
     @Override
     public void onCreate() {

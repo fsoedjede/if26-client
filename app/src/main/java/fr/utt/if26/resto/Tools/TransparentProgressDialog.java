@@ -28,6 +28,7 @@ public class TransparentProgressDialog extends Dialog {
         setTitle(null);
         setCancelable(false);
         setOnCancelListener(null);
+        setCanceledOnTouchOutside(false);
         LinearLayout layout = new LinearLayout(context);
         layout.setOrientation(LinearLayout.VERTICAL);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);

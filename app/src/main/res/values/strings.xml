@@ -12,9 +12,18 @@
     <string name="error_field_required">This field is required</string>
     <string name="error_invalid_firstname">This first name is too short</string>
     <string name="error_invalid_lastname">This last name is too short</string>
-    <string name="dialog_loading">Please wait while loading ...</string>
+    <string name="dialog_loading">Please wait while loading …</string>
     <string name="network_no_access">No Internet Connexion</string>
-
+    <string name="error_unknown_source">Could not retrieve information. Try again!</string>
+    <string name="error_unknown_source2">Could not retrieve information. Try again!2</string>
     <string name="title_activity_location_found">Location Found</string>
+    <string name="title_activity_details_resto">Details Restaurant</string>
+
+    <string name="content_rating">4,9</string>
+    <string name="content_readmore">Read more</string>
+
+    <string name="comment_user_name">Resto user</string>
+    <string name="comment_user_comment">It\'s a good restaurant. Recommanded (y)…</string>
+    <string name="comment_user_date">12/12/2014</string>
 
 </resources>

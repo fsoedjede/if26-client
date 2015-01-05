@@ -1,83 +1,92 @@
 package fr.utt.if26.resto;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.Toast;
 
+import fr.utt.if26.resto.Adapters.ListRestoAdapter;
+import fr.utt.if26.resto.AsyncTasks.ListRestoTask;
+import fr.utt.if26.resto.Interfaces.OnListRestoTaskCompleted;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements OnListRestoTaskCompleted{
+
+    // UI references.
+    private ListView lv_restos;
+    static final String LIST_RESTO_STATE = "LIST_RESTO_STATE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-    }
+        setTitle(R.string.title_restaurant_near_user);
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        /*MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu);
-
-        return super.onCreateOptionsMenu(menu);*/
-
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.activity_main_actions, menu);
-        return true;
-
+        lv_restos = (ListView) findViewById(R.id.list_view_restos);
+        lv_restos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(MainActivity.this, DetailsResto.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
+            }
+        });
+        if (Resto.isInternetconnected()) {
+            new ListRestoTask(this, MainActivity.this).execute();
+        } else {
+            Toast.makeText(this, R.string.network_no_access, Toast.LENGTH_LONG).show();
+        }
     }
 
     /*@Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_menu_login_register:
-                Intent intent = new Intent(Resto.getContext(), RegisterActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-                Resto.getContext().startActivity(intent);
-                //finish();
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
-                //ShowLoginForm();
-                return true;
-            case R.id.action_menu_help:
-                //showHelp();
-                return true;
-            case R.id.action_menu_about:
-                //showAbout();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if(Resto.user == null)
+            getMenuInflater().inflate(R.menu.menu_main, menu);
+        else
+            getMenuInflater().inflate(R.menu.menu_main_connected, menu);
+        return true;
     }*/
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        menu.clear();
+        if(Resto.user == null)
+            getMenuInflater().inflate(R.menu.menu_main, menu);
+        else
+            getMenuInflater().inflate(R.menu.menu_main_connected, menu);
+        return super.onPrepareOptionsMenu(menu);
+    }
+
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Take appropriate action for each action item click
+
         switch (item.getItemId()) {
-            case R.id.action_search:
-                // search action
+            case R.id.action_menu_login_register:
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
                 return true;
-            case R.id.action_location_found:
-                // location found
-                LocationFound();
+            case R.id.action_menu_search:
                 return true;
-            case R.id.action_refresh:
+            case R.id.action_menu_about:
                 // refresh
                 return true;
-            case R.id.action_help:
+            case R.id.action_menu_help:
                 // help action
-                return true;
-            case R.id.action_check_updates:
-                // check for updates action
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    private void LocationFound() {
-        /*Intent i = new Intent(MainActivity.this, LocationFound.class);
-        startActivity(i);*/
+    @Override
+    public void hydrateListView(ListRestoAdapter adapter) {
+        lv_restos.setAdapter(adapter);
     }
 }
+
+
+

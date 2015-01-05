@@ -6,8 +6,6 @@
     <string name="action_go_register">Not registered? <a href='#'>Click here</a></string>
 
     <string name="content_invalid_login_settings">Invalid login settings</string>
-
-    <string name="content_description">Favicon</string>
-
+    <string name="content_valid_login_settings">Login successful</string>
 
 </resources>

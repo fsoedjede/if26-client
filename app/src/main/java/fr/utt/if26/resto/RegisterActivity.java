@@ -1,7 +1,7 @@
 package fr.utt.if26.resto;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,7 +18,7 @@ import fr.utt.if26.resto.AsyncTasks.UserRegisterTask;
 /**
  * A login screen that offers login via email/password.
  */
-public class RegisterActivity extends Activity{
+public class RegisterActivity extends ActionBarActivity{
 
     // UI references.
     private EditText mEmailView, mPasswordView, mFirstnameView, mLastnameView;
