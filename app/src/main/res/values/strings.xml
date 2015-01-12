@@ -18,12 +18,8 @@
     <string name="error_unknown_source2">Could not retrieve information. Try again!2</string>
     <string name="title_activity_location_found">Location Found</string>
     <string name="title_activity_details_resto">Details Restaurant</string>
-
-    <string name="content_rating">4,9</string>
     <string name="content_readmore">Read more</string>
-
-    <string name="comment_user_name">Resto user</string>
-    <string name="comment_user_comment">It\'s a good restaurant. Recommanded (y)…</string>
-    <string name="comment_user_date">12/12/2014</string>
+    <string name="title_activity_directions">Map</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>

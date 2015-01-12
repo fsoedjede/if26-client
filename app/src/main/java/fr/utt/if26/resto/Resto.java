@@ -1,10 +1,14 @@
 package fr.utt.if26.resto;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.view.MenuItem;
 
+import fr.utt.if26.resto.Model.Position;
 import fr.utt.if26.resto.Model.User;
 
 /**
@@ -12,6 +16,7 @@ import fr.utt.if26.resto.Model.User;
  */
 public class Resto extends Application {
     private static Context appContext;
+    public static Position userPosition = null;
 
     public static User user = null;
     public static String server_address = "https://if26-server.herokuapp.com";
@@ -39,5 +44,32 @@ public class Resto extends Application {
 
         }
         return connected;
+    }
+
+    public static void menuActions(Activity context, MenuItem item){
+        switch (item.getItemId()) {
+            case android.R.id.closeButton:
+            case android.R.id.home:
+                context.finish();
+                context.overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_right);
+                break;
+            case R.id.action_menu_login_register:
+                Intent intent = new Intent(context, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+                context.overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
+                break;
+            case R.id.action_menu_profile:
+                Intent intent2 = new Intent(context, AccountActivity.class);
+                context.startActivity(intent2);
+                context.overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
+                break;
+            case R.id.action_menu_about:
+                // about
+                break;
+            case R.id.action_menu_help:
+                // help action
+                break;
+        }
     }
 }

@@ -3,17 +3,20 @@ package fr.utt.if26.resto.AsyncTasks;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Random;
 
 import fr.utt.if26.resto.Adapters.ListRestoAdapter;
 import fr.utt.if26.resto.Interfaces.OnListRestoTaskCompleted;
 import fr.utt.if26.resto.Model.Position;
+import fr.utt.if26.resto.Model.Rating;
 import fr.utt.if26.resto.Model.Restaurant;
 import fr.utt.if26.resto.R;
 import fr.utt.if26.resto.Service.Get;
@@ -64,7 +67,6 @@ public class ListRestoTask extends AsyncTask<String, Void, Boolean> {
 
         if (success) {
             if (result != null) {
-                Log.d("restaurants", result);
                 try {
                     //JSONObject object = new JSONObject(result);
                     ArrayList<Restaurant> restos = new ArrayList<>();
@@ -79,14 +81,18 @@ public class ListRestoTask extends AsyncTask<String, Void, Boolean> {
                         resto.setTel(details.getString("tel"));
                         resto.setUrl(details.getString("url"));
                         JSONObject position = details.getJSONObject("position");
+                        JSONArray coordinates = position.getJSONArray("coordinates");
                         resto.setPosition(
                                 new Position(
-                                        position.getString("latitude"),
-                                        position.getString("longitude"),
-                                        position.getString("address")/* + "\n" +
-                                        details.getString("postcode") + " - " + details.getString("city")*/
+                                        coordinates.getString(0),
+                                        coordinates.getString(1),
+                                        position.getString("name")
                                 )
                         );
+                        double total = 5 * new Random().nextDouble();
+                        BigDecimal bd = new BigDecimal(total).setScale(1, RoundingMode.HALF_EVEN);
+                        total = bd.doubleValue();
+                        resto.setRatings(new Rating(new Random().nextInt(500), total) );
                         restos.add(resto);
                     }
                     try {

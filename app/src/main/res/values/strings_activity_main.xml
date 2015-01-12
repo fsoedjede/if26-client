@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="title_activity_main">Home</string>
-    <string name="hello_world">Hello world!</string>
 
     <string name="action_menu_login_register">Login/Register</string>
-    <string name="action_menu_profile">Profile</string>
+    <string name="action_menu_profile">Account</string>
     <string name="action_menu_more">More</string>
     <string name="action_menu_help">Help</string>
     <string name="action_menu_about">About</string>
@@ -27,6 +26,7 @@
     </string>
     <string name="content_resto_picture">Restaurant picture</string>
     <string name="content_resto_rate">Restaurant rate</string>
+    <string name="content_resto_distance">900m</string>
 
     <string name="item_content_telephone">Telephone</string>
     <string name="item_content_website">Website</string>

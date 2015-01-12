@@ -33,7 +33,6 @@ public class Get {
                 return json;
             }
         } catch (IOException e) {
-            e.printStackTrace();
             return null;
         }
     }

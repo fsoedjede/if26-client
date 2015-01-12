@@ -3,7 +3,6 @@ package fr.utt.if26.resto.AsyncTasks;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -11,10 +10,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import fr.utt.if26.resto.Adapters.ListRestoAdapter;
-import fr.utt.if26.resto.Interfaces.OnListRestoTaskCompleted;
-import fr.utt.if26.resto.Model.Position;
-import fr.utt.if26.resto.Model.Restaurant;
+import fr.utt.if26.resto.Adapters.ListCommentsAdapter;
+import fr.utt.if26.resto.Interfaces.OnListCommentsTaskCompleted;
+import fr.utt.if26.resto.Model.Comment;
 import fr.utt.if26.resto.R;
 import fr.utt.if26.resto.Service.Get;
 
@@ -26,9 +24,9 @@ public class ListCommentsTask extends AsyncTask<String, Void, Boolean> {
     private Activity context;
     private ProgressDialog dialog;
     private String result;
-    private OnListRestoTaskCompleted listener;
+    private OnListCommentsTaskCompleted listener;
 
-    public ListCommentsTask(Activity context, OnListRestoTaskCompleted listener) {
+    public ListCommentsTask(Activity context, OnListCommentsTaskCompleted listener) {
         this.listener = listener;
         this.context = context;
         dialog = new ProgressDialog(context);
@@ -46,10 +44,7 @@ public class ListCommentsTask extends AsyncTask<String, Void, Boolean> {
     @Override
     protected Boolean doInBackground(String... params) {
         try {
-            // Simulate network access.
-            result = Get.get_string("/restaurants/" + params[0] + "comments");
-            //System.out.println(result);
-            //Thread.sleep(2000);
+            result = Get.get_string("/restaurants/" + params[0] + "/comments");
         } catch (Exception e) {
             return false;
         }
@@ -64,40 +59,28 @@ public class ListCommentsTask extends AsyncTask<String, Void, Boolean> {
 
         if (success) {
             if (result != null) {
-                Log.d("restaurants", result);
                 try {
-                    //JSONObject object = new JSONObject(result);
-                    ArrayList<Restaurant> restos = new ArrayList<>();
-                    //JSONArray restaurants_array = (JSONArray) object.get("restaurants");
-                    JSONArray restaurants_array = new JSONArray(result);
-                    for (int i = 0; i < restaurants_array.length(); i++) {
-                        JSONObject details = restaurants_array.getJSONObject(i);
-                        Restaurant resto = new Restaurant();
-                        resto.setName(details.getString("name"));
-                        resto.setDescription(details.getString("description"));
-                        resto.setTel(details.getString("tel"));
-                        resto.setUrl(details.getString("url"));
-                        JSONObject position = details.getJSONObject("position");
-                        resto.setPosition(
-                                new Position(
-                                        position.getString("latitude"),
-                                        position.getString("longitude"),
-                                        position.getString("address")/* + "\n" +
-                                        details.getString("postcode") + " - " + details.getString("city")*/
-                                )
-                        );
-                        restos.add(resto);
+                    ArrayList<Comment> comments = new ArrayList<>();
+                    JSONArray comments_array = new JSONArray(result);
+                    for (int i = 0; i < comments_array.length(); i++) {
+                        JSONObject details = comments_array.getJSONObject(i);
+                        Comment comment = new Comment();
+                        comment.setText(details.getString("text"));
+                        comment.setRating(details.getInt("rating"));
+                        comment.setPosted_at(details.getString("posted_at"));
+
+                        JSONObject author = details.getJSONObject("author");
+                        comment.setAuthor_name(author.getString("first_name") + " " + author.getString("last_name"));
+                        comments.add(comment);
                     }
                     try {
-                        ListRestoAdapter adapter = new ListRestoAdapter(context, R.layout.item_list_resto);
-                        adapter.addMultiple(restos);
+                        ListCommentsAdapter adapter = new ListCommentsAdapter(context, R.layout.item_list_resto);
+                        adapter.addMultiple(comments);
                         listener.hydrateListView(adapter);
                     } catch (Exception ex) {
-
                         Toast.makeText(context, R.string.error_unknown_source, Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception ex) {
-                    ex.printStackTrace();
                     Toast.makeText(context, R.string.error_unknown_source, Toast.LENGTH_SHORT).show();
                 }
             } else {

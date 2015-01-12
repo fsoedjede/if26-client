@@ -6,4 +6,6 @@
 
     <string name="action_register">Register</string>
     <string name="action_sign_out_short">Register</string>
+
+    <string name="content_register_ok">You are registered</string>
 </resources>

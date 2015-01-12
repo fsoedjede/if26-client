@@ -5,20 +5,37 @@
     android:orientation="horizontal"
     android:layout_margin="5dp"
     android:id="@+id/list_item_resto"
-    android:weightSum="1">
+    android:weightSum="1"
+    android:baselineAligned="false">
 
-    <TextView
-        android:id="@+id/resto_description"
+    <FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
         android:layout_weight="1"
-        android:textSize="13sp"
-        android:padding="5dp"
-        android:ellipsize="end"
-        android:minLines="4"
-        android:lines="6"
-        android:singleLine="false"
-        android:text="@string/content_resto_description" />
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/resto_description"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="13sp"
+            android:padding="5dp"
+            android:ellipsize="end"
+            android:minLines="4"
+            android:lines="6"
+            android:singleLine="false"
+            android:text="@string/content_resto_description" />
+
+        <TextView
+            android:id="@+id/resto_distance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:text="@string/content_resto_distance" />
+
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"

@@ -7,16 +7,18 @@ import org.json.JSONObject;
  * Created by soedjede on 04/01/15 for Resto
  */
 public class User {
-    private String _id, email, username, password, salt;
+    private String _id, email, username, first_name, last_name, password, salt;
     private Position position;
 
     public User() {
     }
 
-    public User(String _id, String email, String username, String password, String salt, Position position) {
+    public User(String _id, String email, String username, String first_name, String last_name, String password, String salt, Position position) {
         this._id = _id;
         this.email = email;
         this.username = username;
+        this.first_name = first_name;
+        this.last_name = last_name;
         this.password = password;
         this.salt = salt;
         this.position = position;
@@ -44,6 +46,22 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getFirst_name() {
+        return first_name;
+    }
+
+    public void setFirst_name(String first_name) {
+        this.first_name = first_name;
+    }
+
+    public String getLast_name() {
+        return last_name;
+    }
+
+    public void setLast_name(String last_name) {
+        this.last_name = last_name;
     }
 
     public String getPassword() {
@@ -74,6 +92,8 @@ public class User {
         this._id = json_user.getString("_id");
         this.email = json_user.getString("email");
         this.username = json_user.getString("username");
+        this.first_name = json_user.getString("first_name");
+        this.last_name = json_user.getString("last_name");
         this.password = null;
         this.salt = null;
         Position pos = new Position();

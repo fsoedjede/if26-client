@@ -10,4 +10,17 @@
     <string name="content_item_directions">Directions</string>
     <string name="content_item_website">Website</string>
 
+    <string name="content_rating">4,9</string>
+    <string name="content_rating_count">(5 rates)</string>
+    <string name="content_rates">rates</string>
+
+    <string name="comment_user_name">Resto user</string>
+    <string name="comment_user_comment">It\'s a good restaurant. Recommanded (y)…</string>
+    <string name="comment_user_date">12/12/2014</string>
+
+    <string name="resto_content_no_rate">This restaurant has not been rated yet. Be the first</string>
+    <string name="rate_dialog_custom_text">Please choose a rate for this restaurant</string>
+
+    <string name="content_text_ok">OK</string>
+
 </resources>

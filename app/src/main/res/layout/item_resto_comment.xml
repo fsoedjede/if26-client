@@ -1,22 +1,22 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/comment_layout"
     android:layout_width="match_parent"
-    android:layout_height="90dp"
+    android:layout_height="wrap_content"
     android:orientation="horizontal">
 
     <ImageView
         android:id="@+id/comment_user_image"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:layout_weight="0.5"
+        android:layout_width="50dp"
+        android:layout_height="75dp"
+        android:layout_gravity="top"
         android:contentDescription="@string/hello_world"
-        android:maxWidth="90dp"
+        android:maxWidth="50dp"
         android:src="@drawable/user_default" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="5dp">
 
@@ -25,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/comment_user_name"
-            android:textSize="24sp"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <LinearLayout
@@ -34,11 +34,10 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/resto_user_rate"
-                android:layout_width="0dp"
-                android:layout_height="20dp"
+                android:id="@+id/comment_user_rate"
+                android:layout_width="75dp"
+                android:layout_height="15dp"
                 android:layout_gravity="start"
-                android:layout_weight="0.4"
                 android:contentDescription="@string/hello_world"
                 android:scaleType="centerInside"
                 android:src="@drawable/star_rating_five" />
@@ -47,10 +46,10 @@
                 android:id="@+id/comment_user_date"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
-                android:layout_gravity="center"
-                android:layout_weight="0.6"
+                android:gravity="center|start"
                 android:text="@string/comment_user_date" />
 
         </LinearLayout>
@@ -59,6 +58,6 @@
             android:id="@+id/comment_user_comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/comment_user_comment"/>
+            android:text="@string/comment_user_comment" />
     </LinearLayout>
 </LinearLayout>

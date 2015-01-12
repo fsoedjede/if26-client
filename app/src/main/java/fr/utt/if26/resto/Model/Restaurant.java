@@ -3,17 +3,20 @@ package fr.utt.if26.resto.Model;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
+
 /**
  * Created by soedjede on 23/12/14 for Resto
  */
-public class Restaurant {
+public class Restaurant implements Serializable {
     private String _id, name, description, url, tel, mail;
     private Position position;
+    private Rating ratings;
 
     public Restaurant() {
     }
 
-    public Restaurant(String _id, String name, String description, String url, String tel, String mail, Position position) {
+    public Restaurant(String _id, String name, String description, String url, String tel, String mail, Position position, Rating ratings) {
         this._id = _id;
         this.name = name;
         this.description = description;
@@ -21,6 +24,7 @@ public class Restaurant {
         this.tel = tel;
         this.mail = mail;
         this.position = position;
+        this.ratings = ratings;
     }
 
     public String get_id() {
@@ -79,6 +83,14 @@ public class Restaurant {
         this.position = position;
     }
 
+    public Rating getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(Rating ratings) {
+        this.ratings = ratings;
+    }
+
     public void JsonRestaurantParse(JSONObject json_resto) throws JSONException {
         this.name = json_resto.getString("name");
         this.description = json_resto.getString("description");
@@ -88,5 +100,12 @@ public class Restaurant {
         Position pos = new Position();
         pos.JsonPositionParse(json_resto.getJSONObject("position"));
         this.position = pos;
+
+        Rating rate = new Rating();
+        if(json_resto.has("ratings")) {
+            rate.JsonRatingParse(json_resto.getJSONObject("ratings"));
+        }
+        this.ratings = rate;
+
     }
 }

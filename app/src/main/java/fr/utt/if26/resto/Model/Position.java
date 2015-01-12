@@ -1,12 +1,15 @@
 package fr.utt.if26.resto.Model;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.Serializable;
 
 /**
  * Created by soedjede on 23/12/14 for Resto
  */
-public class Position {
+public class Position implements Serializable{
 
     private String latitude, longitude, address;
 
@@ -44,8 +47,12 @@ public class Position {
     }
 
     public void JsonPositionParse(JSONObject json_position) throws JSONException {
-        this.latitude = json_position.getString("latitude");
+        this.address = json_position.getString("name");
+        JSONArray coordinates = json_position.getJSONArray("coordinates");
+        this.latitude = coordinates.getString(0);
+        this.longitude = coordinates.getString(1);
+        /*this.latitude = json_position.getString("latitude");
         this.longitude = json_position.getString("longitude");
-        this.address = json_position.getString("address");
+        this.address = json_position.getString("address");*/
     }
 }

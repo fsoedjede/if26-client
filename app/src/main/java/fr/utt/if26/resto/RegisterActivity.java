@@ -1,6 +1,11 @@
 package fr.utt.if26.resto;
 
+import android.content.Intent;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
 import android.view.View;
@@ -18,10 +23,12 @@ import fr.utt.if26.resto.AsyncTasks.UserRegisterTask;
 /**
  * A login screen that offers login via email/password.
  */
-public class RegisterActivity extends ActionBarActivity{
+public class RegisterActivity extends ActionBarActivity implements LocationListener{
 
     // UI references.
     private EditText mEmailView, mPasswordView, mFirstnameView, mLastnameView;
+    private double lat = 0.0, lng = 0.0;
+    private LocationManager locationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,10 +42,18 @@ public class RegisterActivity extends ActionBarActivity{
         mPasswordView = (EditText) findViewById(R.id.register_password);
 
         mLastnameView.setText("EXAMPLE");
-        mFirstnameView.setText("Foo");
+        mFirstnameView.setText("Foo user");
         mEmailView.setText("foo@example.com");
         mPasswordView.setText("hello");
 
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        boolean enabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        if (!enabled) {
+            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            startActivity(intent);
+        } else {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+        }
 
         Button mEmailSignInButton = (Button) findViewById(R.id.email_register_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
@@ -47,6 +62,19 @@ public class RegisterActivity extends ActionBarActivity{
                 attemptLogin();
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 1, this);
+    }
+
+    /* Remove the locationlistener updates when Activity is paused */
+    @Override
+    protected void onPause() {
+        super.onPause();
+        locationManager.removeUpdates(this);
     }
 
 
@@ -121,7 +149,16 @@ public class RegisterActivity extends ActionBarActivity{
             focusView.requestFocus();
         } else {
             if(Resto.isInternetconnected()) {
-                new UserRegisterTask(RegisterActivity.this).execute(mEmailView.getText().toString(), mPasswordView.getText().toString());
+
+                new UserRegisterTask(RegisterActivity.this).execute(
+                        mLastnameView.getText().toString(),
+                        mFirstnameView.getText().toString(),
+                        mEmailView.getText().toString(),
+                        mEmailView.getText().toString().substring(0, mEmailView.getText().toString().indexOf("@")),
+                        mPasswordView.getText().toString(),
+                        String.valueOf(this.lat),
+                        String.valueOf(this.lng)
+                );
             } else {
                 Toast.makeText(this, R.string.network_no_access, Toast.LENGTH_LONG).show();
             }
@@ -142,15 +179,37 @@ public class RegisterActivity extends ActionBarActivity{
     }
 
     private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
         return password.length() > 4;
     }
 
     private boolean isTextFieldValid(String text){
-        //TODO: Replace the logic we will choose
         return text.length() > 4;
     }
 
+    @Override
+    public void onLocationChanged(Location location) {
+        if (lat == 0.0) {
+            this.lat = location.getLatitude();
+        }
+        if (lng == 0.0) {
+            this.lng = location.getLongitude();
+        }
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
+    }
 }
 
 
