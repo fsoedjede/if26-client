@@ -6,7 +6,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.v7.app.ActionBarActivity;
+import android.app.Activity;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -23,7 +23,7 @@ import fr.utt.if26.resto.AsyncTasks.UserRegisterTask;
 /**
  * A login screen that offers login via email/password.
  */
-public class RegisterActivity extends ActionBarActivity implements LocationListener{
+public class RegisterActivity extends Activity implements LocationListener{
 
     // UI references.
     private EditText mEmailView, mPasswordView, mFirstnameView, mLastnameView;

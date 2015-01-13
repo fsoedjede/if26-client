@@ -17,9 +17,9 @@ public class Position implements Serializable{
     }
 
     public Position(String latitude, String longitude, String address) {
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.address = address;
+        this.latitude = longitude;
+        this.longitude = latitude;
+        this.address = address.replace(",", "\n");
     }
 
     public String getLatitude() {
@@ -47,10 +47,10 @@ public class Position implements Serializable{
     }
 
     public void JsonPositionParse(JSONObject json_position) throws JSONException {
-        this.address = json_position.getString("name");
+        this.address = json_position.getString("name").replace(",", "\n");
         JSONArray coordinates = json_position.getJSONArray("coordinates");
-        this.latitude = coordinates.getString(0);
-        this.longitude = coordinates.getString(1);
+        this.latitude = coordinates.getString(1);
+        this.longitude = coordinates.getString(0);
         /*this.latitude = json_position.getString("latitude");
         this.longitude = json_position.getString("longitude");
         this.address = json_position.getString("address");*/

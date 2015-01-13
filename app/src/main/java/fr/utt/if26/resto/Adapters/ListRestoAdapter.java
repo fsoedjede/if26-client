@@ -5,13 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.utt.if26.resto.Model.Rating;
 import fr.utt.if26.resto.Model.Restaurant;
 import fr.utt.if26.resto.R;
 import fr.utt.if26.resto.Resto;
@@ -22,7 +21,7 @@ import fr.utt.if26.resto.Tools.MapsUtility;
  */
 public class ListRestoAdapter extends ArrayAdapter {
 
-    private List<Restaurant> restos = new ArrayList<>();
+    private List<Restaurant> restos = new ArrayList<Restaurant>();
 
     public ListRestoAdapter(Context context, int resource) {
         super(context, resource);
@@ -71,8 +70,8 @@ public class ListRestoAdapter extends ArrayAdapter {
         } else {
             tv_distance.setText(String.format("%.2f", distance) + " km");
         }
-        ImageView resto_rate = (ImageView) row.findViewById(R.id.resto_rate);
-        resto_rate.setImageResource(Rating.RatingStars(resto.getRatings().getTotal()));
+        RatingBar resto_rate = (RatingBar) row.findViewById(R.id.resto_rate);
+        resto_rate.setRating((float)resto.getRatings().getTotal());
 
         TextView tv_description = (TextView) row.findViewById(R.id.resto_description);
         if (website.length() < 5){

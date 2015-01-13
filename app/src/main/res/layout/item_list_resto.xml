@@ -22,22 +22,37 @@
             android:padding="5dp"
             android:ellipsize="end"
             android:minLines="4"
-            android:lines="6"
+            android:lines="7"
             android:singleLine="false"
             android:text="@string/content_resto_description" />
+
+        <RatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:id="@+id/resto_rate"
+            style="?android:attr/ratingBarStyleSmall"
+            android:layout_gravity="end|top"
+            android:layout_marginTop="@dimen/activity_little_padding"
+            android:layout_marginEnd="@dimen/activity_little_padding"
+            android:layout_marginRight="@dimen/activity_little_padding"
+            android:numStars="5"
+            android:stepSize="1"
+            android:rating="4"
+            android:isIndicator="true" />
 
         <TextView
             android:id="@+id/resto_distance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end|bottom"
-            android:layout_marginEnd="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_gravity="end|top"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="@dimen/activity_little_padding"
+            android:layout_marginRight="@dimen/activity_little_padding"
             android:text="@string/content_resto_distance" />
 
     </FrameLayout>
 
-    <LinearLayout
+    <!--<LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -62,4 +77,5 @@
             android:src="@drawable/star_rating_five" />
 
     </LinearLayout>
+    -->
 </LinearLayout>

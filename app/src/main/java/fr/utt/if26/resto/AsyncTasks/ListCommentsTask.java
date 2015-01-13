@@ -11,7 +11,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import fr.utt.if26.resto.Adapters.ListCommentsAdapter;
-import fr.utt.if26.resto.Interfaces.OnListCommentsTaskCompleted;
+import fr.utt.if26.resto.Interfaces.OnListTaskCompleted;
 import fr.utt.if26.resto.Model.Comment;
 import fr.utt.if26.resto.R;
 import fr.utt.if26.resto.Service.Get;
@@ -24,15 +24,16 @@ public class ListCommentsTask extends AsyncTask<String, Void, Boolean> {
     private Activity context;
     private ProgressDialog dialog;
     private String result;
-    private OnListCommentsTaskCompleted listener;
+    private OnListTaskCompleted listener;
 
-    public ListCommentsTask(Activity context, OnListCommentsTaskCompleted listener) {
+    public ListCommentsTask(Activity context, OnListTaskCompleted listener) {
         this.listener = listener;
         this.context = context;
         dialog = new ProgressDialog(context);
     }
 
     protected void onPreExecute() {
+        this.dialog.setCanceledOnTouchOutside(false);
         this.dialog.setMessage(context.getString(R.string.dialog_loading));
         this.dialog.show();
     }
@@ -60,7 +61,7 @@ public class ListCommentsTask extends AsyncTask<String, Void, Boolean> {
         if (success) {
             if (result != null) {
                 try {
-                    ArrayList<Comment> comments = new ArrayList<>();
+                    ArrayList<Comment> comments = new ArrayList<Comment>(0);
                     JSONArray comments_array = new JSONArray(result);
                     for (int i = 0; i < comments_array.length(); i++) {
                         JSONObject details = comments_array.getJSONObject(i);

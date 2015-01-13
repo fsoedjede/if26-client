@@ -2,7 +2,7 @@ package fr.utt.if26.resto;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.app.Activity;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,7 +20,7 @@ import fr.utt.if26.resto.AsyncTasks.UserLoginTask;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends ActionBarActivity{
+public class LoginActivity extends Activity{
 
     // UI references.
     private EditText mEmailView, mPasswordView;

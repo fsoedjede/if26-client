@@ -23,7 +23,7 @@ public class DirectionsActivity extends FragmentActivity {
         setContentView(R.layout.activity_directions);
         position = DetailsRestoActivity.actual_position;
         setUpMapIfNeeded();
-        mMap.setMyLocationEnabled(true);
+        //mMap.setMyLocationEnabled(true);
     }
 
     @Override

@@ -1,5 +1,4 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="fr.utt.if26.resto.MainActivity">
 
@@ -7,30 +6,30 @@
         android:actionViewClass="android.widget.SearchView"
         android:icon="@drawable/ic_action_search"
         android:title="@string/action_search"
-        app:showAsAction="ifRoom|collapseActionView"/>
+        android:showAsAction="ifRoom|collapseActionView"/>
 
     <item
         android:id="@+id/a_More"
         android:icon="@drawable/ic_action_overflow"
         android:title="@string/content_readmore"
-        app:showAsAction="always">
+        android:showAsAction="always">
         <menu>
 
             <item
                 android:id="@+id/action_menu_profile"
                 android:orderInCategory="100"
                 android:title="@string/action_menu_profile"
-                app:showAsAction="never" />
+                android:showAsAction="never" />
             <item
                 android:id="@+id/action_menu_help"
                 android:orderInCategory="100"
                 android:title="@string/action_menu_help"
-                app:showAsAction="never" />
+                android:showAsAction="never" />
             <item
                 android:id="@+id/action_menu_about"
                 android:orderInCategory="100"
                 android:title="@string/action_menu_about"
-                app:showAsAction="never" />
+                android:showAsAction="never" />
         </menu>
     </item>
 </menu>

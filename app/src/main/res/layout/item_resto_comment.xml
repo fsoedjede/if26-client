@@ -33,14 +33,19 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <ImageView
+            <RatingBar
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
                 android:id="@+id/comment_user_rate"
-                android:layout_width="75dp"
-                android:layout_height="15dp"
-                android:layout_gravity="start"
-                android:contentDescription="@string/hello_world"
-                android:scaleType="centerInside"
-                android:src="@drawable/star_rating_five" />
+                style="?android:attr/ratingBarStyleSmall"
+                android:layout_gravity="end|top"
+                android:layout_marginTop="@dimen/activity_little_padding"
+                android:layout_marginEnd="@dimen/activity_little_padding"
+                android:layout_marginRight="@dimen/activity_little_padding"
+                android:numStars="5"
+                android:stepSize="1"
+                android:rating="4"
+                android:isIndicator="true" />
 
             <TextView
                 android:id="@+id/comment_user_date"

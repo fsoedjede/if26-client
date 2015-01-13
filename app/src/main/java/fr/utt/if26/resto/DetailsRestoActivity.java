@@ -5,30 +5,28 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import fr.utt.if26.resto.Adapters.ListCommentsAdapter;
 import fr.utt.if26.resto.AsyncTasks.ListCommentsTask;
-import fr.utt.if26.resto.Interfaces.OnListCommentsTaskCompleted;
+import fr.utt.if26.resto.Interfaces.OnListTaskCompleted;
 import fr.utt.if26.resto.Model.Position;
-import fr.utt.if26.resto.Model.Rating;
 import fr.utt.if26.resto.Model.Restaurant;
 import fr.utt.if26.resto.Tools.Utility;
 
 
-public class DetailsRestoActivity extends ActionBarActivity implements View.OnClickListener, OnListCommentsTaskCompleted {
+public class DetailsRestoActivity extends Activity implements View.OnClickListener, OnListTaskCompleted {
 
     private ListView lv_comments;
     private Restaurant restaurant;
@@ -58,10 +56,11 @@ public class DetailsRestoActivity extends ActionBarActivity implements View.OnCl
             } else {
                 TextView resto_content_rate = (TextView) findViewById(R.id.resto_content_rate);
                 TextView resto_content_rate_count = (TextView) findViewById(R.id.resto_content_rate_count);
-                ImageView resto_image_rate = (ImageView) findViewById(R.id.resto_image_rate);
+                RatingBar resto_image_rate = (RatingBar) findViewById(R.id.resto_image_rate);
                 resto_content_rate.setText(String.valueOf(restaurant.getRatings().getTotal()));
                 resto_content_rate_count.setText("(" + restaurant.getRatings().getReceived() + " " + getString(R.string.content_rates) + ")");
-                resto_image_rate.setImageResource(Rating.RatingStars(restaurant.getRatings().getTotal()));
+                resto_image_rate.setRating((float) restaurant.getRatings().getTotal());
+                //resto_image_rate.setImageResource(Rating.RatingStars(restaurant.getRatings().getTotal()));
 
 
             }
@@ -69,7 +68,7 @@ public class DetailsRestoActivity extends ActionBarActivity implements View.OnCl
             TextView resto_content_rate = (TextView) findViewById(R.id.resto_content_rate);
             resto_content_rate.setText(R.string.resto_content_no_rate);
             resto_content_rate.setTextSize(14);
-            ImageView resto_image_rate = (ImageView) findViewById(R.id.resto_image_rate);
+            RatingBar resto_image_rate = (RatingBar) findViewById(R.id.resto_image_rate);
             resto_image_rate.setVisibility(View.GONE);
         }
 
@@ -118,12 +117,35 @@ public class DetailsRestoActivity extends ActionBarActivity implements View.OnCl
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Resto.menuActions(this, item);
+        switch (item.getItemId()) {
+            case android.R.id.closeButton:
+            case android.R.id.home:
+                finish();
+                overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_right);
+                break;
+            case R.id.action_menu_login_register:
+                Intent intent = new Intent(this, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
+                break;
+            case R.id.action_menu_profile:
+                Intent intent2 = new Intent(this, AccountActivity.class);
+                startActivity(intent2);
+                overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
+                break;
+            case R.id.action_menu_about:
+                // about
+                break;
+            case R.id.action_menu_help:
+                // help action
+                break;
+        }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
-    public void hydrateListView(ListCommentsAdapter adapter) {
+    public void hydrateListView(ArrayAdapter adapter) {
         lv_comments.setAdapter(adapter);
         Utility.setListViewHeightBasedOnChildren(lv_comments);
     }

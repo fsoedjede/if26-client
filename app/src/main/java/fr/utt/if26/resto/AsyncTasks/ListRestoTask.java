@@ -11,15 +11,19 @@ import org.json.JSONObject;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Random;
 
 import fr.utt.if26.resto.Adapters.ListRestoAdapter;
-import fr.utt.if26.resto.Interfaces.OnListRestoTaskCompleted;
+import fr.utt.if26.resto.Interfaces.OnListTaskCompleted;
 import fr.utt.if26.resto.Model.Position;
 import fr.utt.if26.resto.Model.Rating;
 import fr.utt.if26.resto.Model.Restaurant;
 import fr.utt.if26.resto.R;
+import fr.utt.if26.resto.Resto;
 import fr.utt.if26.resto.Service.Get;
+import fr.utt.if26.resto.Tools.MapsUtility;
 
 /**
  * Created by soedjede on 20/12/14
@@ -29,15 +33,16 @@ public class ListRestoTask extends AsyncTask<String, Void, Boolean> {
     private Activity context;
     private ProgressDialog dialog;
     private String result;
-    private OnListRestoTaskCompleted listener;
+    private OnListTaskCompleted listener;
 
-    public ListRestoTask(Activity context, OnListRestoTaskCompleted listener) {
+    public ListRestoTask(Activity context, OnListTaskCompleted listener) {
         this.listener = listener;
         this.context = context;
         dialog = new ProgressDialog(context);
     }
 
     protected void onPreExecute() {
+        this.dialog.setCanceledOnTouchOutside(false);
         this.dialog.setMessage(context.getString(R.string.dialog_loading));
         this.dialog.show();
     }
@@ -69,7 +74,7 @@ public class ListRestoTask extends AsyncTask<String, Void, Boolean> {
             if (result != null) {
                 try {
                     //JSONObject object = new JSONObject(result);
-                    ArrayList<Restaurant> restos = new ArrayList<>();
+                    ArrayList<Restaurant> restos = new ArrayList<Restaurant>(2);
                     //JSONArray restaurants_array = (JSONArray) object.get("restaurants");
                     JSONArray restaurants_array = new JSONArray(result);
                     for (int i = 0; i < restaurants_array.length(); i++) {
@@ -96,6 +101,17 @@ public class ListRestoTask extends AsyncTask<String, Void, Boolean> {
                         restos.add(resto);
                     }
                     try {
+                        if(Resto.userPosition == null) {
+                            Resto.userPosition = new Position("48.2690151", "4.0672518", "12 rue Marie Curie - 10 000 TROYES");
+                        }
+                        Collections.sort(restos, new Comparator<Restaurant>() {
+                            @Override
+                            public int compare(Restaurant lhs, Restaurant rhs) {
+                                double distance1 = MapsUtility.distance(lhs.getPosition(), Resto.userPosition, 'K');
+                                double distance2 = MapsUtility.distance(rhs.getPosition(), Resto.userPosition, 'K');
+                                return Double.compare(distance1, distance2);
+                            }
+                        });//Sort the distance to show first nearby restaurants
                         ListRestoAdapter adapter = new ListRestoAdapter(context, R.layout.item_list_resto);
                         adapter.addMultiple(restos);
                         listener.hydrateListView(adapter);

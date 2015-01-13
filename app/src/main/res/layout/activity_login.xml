@@ -61,7 +61,6 @@
                 android:id="@+id/email_sign_in_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/button_styled"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:text="@string/action_sign_in_short"
                 android:textStyle="bold" />

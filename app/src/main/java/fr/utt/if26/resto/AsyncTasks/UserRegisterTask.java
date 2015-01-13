@@ -38,6 +38,7 @@ public class UserRegisterTask extends AsyncTask<String, Void, Boolean> {
     }
 
     protected void onPreExecute() {
+        this.dialog.setCanceledOnTouchOutside(false);
         this.dialog.setMessage(context.getString(R.string.dialog_loading));
         this.dialog.show();
     }
@@ -54,7 +55,7 @@ public class UserRegisterTask extends AsyncTask<String, Void, Boolean> {
     @Override
     protected Boolean doInBackground(String... args) {
         // TODO: register the new account here.
-        List<NameValuePair> nameValuePairs = new ArrayList<>(6);
+        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(6);
         nameValuePairs.add(new BasicNameValuePair("email", args[2]));
         nameValuePairs.add(new BasicNameValuePair("username", args[3]));
         nameValuePairs.add(new BasicNameValuePair("first_name", args[1]));

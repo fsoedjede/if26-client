@@ -1,12 +1,9 @@
 package fr.utt.if26.resto;
 
-import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.view.MenuItem;
 
 import fr.utt.if26.resto.Model.Position;
 import fr.utt.if26.resto.Model.User;
@@ -46,7 +43,7 @@ public class Resto extends Application {
         return connected;
     }
 
-    public static void menuActions(Activity context, MenuItem item){
+    /*public static void menuActions(Activity context, MenuItem item){
         switch (item.getItemId()) {
             case android.R.id.closeButton:
             case android.R.id.home:
@@ -71,5 +68,5 @@ public class Resto extends Application {
                 // help action
                 break;
         }
-    }
+    }*/
 }

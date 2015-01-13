@@ -5,7 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import java.text.ParseException;
@@ -15,7 +15,6 @@ import java.util.Date;
 import java.util.List;
 
 import fr.utt.if26.resto.Model.Comment;
-import fr.utt.if26.resto.Model.Rating;
 import fr.utt.if26.resto.R;
 
 /**
@@ -23,7 +22,7 @@ import fr.utt.if26.resto.R;
  */
 public class ListCommentsAdapter extends ArrayAdapter {
 
-    private List<Comment> comments = new ArrayList<>();
+    private List<Comment> comments = new ArrayList<Comment>();
 
     public ListCommentsAdapter(Context context, int resource) {
         super(context, resource);
@@ -61,12 +60,12 @@ public class ListCommentsAdapter extends ArrayAdapter {
         Comment comment = getItem(position);
 
         TextView comment_user_name = (TextView) row.findViewById(R.id.comment_user_name);
-        ImageView comment_user_rate = (ImageView) row.findViewById(R.id.comment_user_rate);
+        RatingBar comment_user_rate = (RatingBar) row.findViewById(R.id.comment_user_rate);
         TextView comment_user_date = (TextView) row.findViewById(R.id.comment_user_date);
         TextView comment_user_comment = (TextView) row.findViewById(R.id.comment_user_comment);
 
         comment_user_name.setText(comment.getAuthor_name());
-        comment_user_rate.setImageResource(Rating.RatingStars(comment.getRating()));
+        comment_user_rate.setRating((float) comment.getRating());
         comment_user_comment.setText(comment.getText());
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
