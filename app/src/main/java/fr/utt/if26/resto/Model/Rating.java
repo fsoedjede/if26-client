@@ -11,38 +11,38 @@ import fr.utt.if26.resto.R;
  * Created by soedjede on 06/01/15 for Resto
  */
 public class Rating implements Serializable {
-    private int received;
-    private double total;
+    private double received;
+    private int total;
 
     public Rating() {
         received = 0;
         total = 0;
     }
 
-    public Rating(int received, double total) {
+    public Rating(double received, int total) {
         this.received = received;
         this.total = total;
     }
 
-    public int getReceived() {
+    public double getReceived() {
         return received;
     }
 
-    public void setReceived(int received) {
+    public void setReceived(double received) {
         this.received = received;
     }
 
-    public double getTotal() {
+    public int getTotal() {
         return total;
     }
 
-    public void setTotal(double total) {
+    public void setTotal(int total) {
         this.total = total;
     }
 
     public void JsonRatingParse(JSONObject json_rating) throws JSONException {
-        this.received = json_rating.getInt("received");
-        this.total = json_rating.getDouble("total");
+        this.received = json_rating.getDouble("received");
+        this.total = json_rating.getInt("total");
     }
 
     public static int RatingStars(double rate) {

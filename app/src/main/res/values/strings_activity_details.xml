@@ -22,5 +22,7 @@
     <string name="rate_dialog_custom_text">Please choose a rate for this restaurant</string>
 
     <string name="content_text_ok">OK</string>
+    <string name="content_comment_added">Comment added successfully</string>
+    <string name="content_comment_missing">Please write your comment</string>
 
 </resources>

@@ -54,7 +54,6 @@ public class UserRegisterTask extends AsyncTask<String, Void, Boolean> {
      */
     @Override
     protected Boolean doInBackground(String... args) {
-        // TODO: register the new account here.
         List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(6);
         nameValuePairs.add(new BasicNameValuePair("email", args[2]));
         nameValuePairs.add(new BasicNameValuePair("username", args[3]));
@@ -63,7 +62,7 @@ public class UserRegisterTask extends AsyncTask<String, Void, Boolean> {
         nameValuePairs.add(new BasicNameValuePair("password", args[4]));
         nameValuePairs.add(new BasicNameValuePair("position['lat']", args[5]));
         nameValuePairs.add(new BasicNameValuePair("position['lng']", args[6]));
-        result = Post.postData("/users/new", nameValuePairs);
+        result = Post.postData("/users", nameValuePairs);
         return true;
     }
 
@@ -81,11 +80,12 @@ public class UserRegisterTask extends AsyncTask<String, Void, Boolean> {
                         JSONObject json_user = new JSONObject(result);
                         try {
                             User user = new User();
-                            user.JsonUserParse(json_user);
+                            user.JsonUserParse(json_user.getJSONObject("user"));
                             Resto.user = user;
                             Toast.makeText(context, R.string.content_register_ok, Toast.LENGTH_SHORT).show();
                             context.finish();
                         } catch (Exception ex) {
+                            ex.printStackTrace();
                             Toast.makeText(context, R.string.error_unknown_source, Toast.LENGTH_SHORT).show();
                         }
                     } else {

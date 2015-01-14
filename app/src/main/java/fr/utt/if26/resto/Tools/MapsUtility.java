@@ -1,5 +1,7 @@
 package fr.utt.if26.resto.Tools;
 
+import android.util.Log;
+
 import fr.utt.if26.resto.Model.Position;
 
 /**
@@ -61,4 +63,31 @@ public class MapsUtility {
     /*system.println(distance(32.9697, -96.80322, 29.46786, -98.53506, "M") + " Miles\n");
     system.println(distance(32.9697, -96.80322, 29.46786, -98.53506, "K") + " Kilometers\n");
     system.println(distance(32.9697, -96.80322, 29.46786, -98.53506, "N") + " Nautical Miles\n");*/
+
+    // Haversine_formula
+    private static final double R = 6372.8; // In kilometers
+
+    public static double haversine(double lat1, double lon1, double lat2, double lon2) {
+        double dLat = Math.toRadians(lat2 - lat1);
+        double dLon = Math.toRadians(lon2 - lon1);
+        lat1 = Math.toRadians(lat1);
+        lat2 = Math.toRadians(lat2);
+
+        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
+        double c = 2 * Math.asin(Math.sqrt(a));
+        return R * c;
+    }
+
+    public static double haversine(Position position1, Position position2) {
+        double lat1 = Double.valueOf(position1.getLatitude());
+        double lat2 = Double.valueOf(position2.getLatitude());
+        double dLat = Math.toRadians(lat2 - lat1);
+        double dLon = Math.toRadians(Double.valueOf(position2.getLongitude()) - Double.valueOf(position1.getLongitude()));
+        lat1 = Math.toRadians(lat1);
+        lat2 = Math.toRadians(lat2);
+
+        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
+        double c = 2 * Math.asin(Math.sqrt(a));
+        return R * c;
+    }
 }

@@ -21,8 +21,8 @@
             android:textSize="13sp"
             android:padding="5dp"
             android:ellipsize="end"
-            android:minLines="4"
-            android:lines="7"
+            android:minLines="3"
+            android:lines="4"
             android:singleLine="false"
             android:text="@string/content_resto_description" />
 

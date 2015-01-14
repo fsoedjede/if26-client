@@ -45,7 +45,7 @@ public class UserLoginTask extends AsyncTask<String, Void, Boolean> {
     protected Boolean doInBackground(String... params) {
         try {
             // Simulate network access.
-            result = Get.get_string("/users/login/" + params[0] + "/" + params[1]);
+            result = Get.get_string("/login/" + params[0] + "/" + params[1]);
         } catch (Exception e) {
             return false;
         }

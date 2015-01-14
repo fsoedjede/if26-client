@@ -94,21 +94,20 @@ public class ListRestoTask extends AsyncTask<String, Void, Boolean> {
                                         position.getString("name")
                                 )
                         );
-                        double total = 5 * new Random().nextDouble();
-                        BigDecimal bd = new BigDecimal(total).setScale(1, RoundingMode.HALF_EVEN);
-                        total = bd.doubleValue();
-                        resto.setRatings(new Rating(new Random().nextInt(500), total) );
+                        JSONObject ratings = details.getJSONObject("ratings");
+                        resto.setRatings(new Rating(ratings.getDouble("received"), ratings.getInt("total")) );
+                        resto.set_main_picture(details.getString("_main_picture"));
                         restos.add(resto);
                     }
                     try {
                         if(Resto.userPosition == null) {
-                            Resto.userPosition = new Position("48.2690151", "4.0672518", "12 rue Marie Curie - 10 000 TROYES");
+                            Resto.userPosition = new Position("4.0672518", "48.2690151", "12 rue Marie Curie - 10 000 TROYES");
                         }
                         Collections.sort(restos, new Comparator<Restaurant>() {
                             @Override
                             public int compare(Restaurant lhs, Restaurant rhs) {
-                                double distance1 = MapsUtility.distance(lhs.getPosition(), Resto.userPosition, 'K');
-                                double distance2 = MapsUtility.distance(rhs.getPosition(), Resto.userPosition, 'K');
+                                double distance1 = MapsUtility.haversine(lhs.getPosition(), Resto.userPosition);
+                                double distance2 = MapsUtility.haversine(rhs.getPosition(), Resto.userPosition);
                                 return Double.compare(distance1, distance2);
                             }
                         });//Sort the distance to show first nearby restaurants

@@ -9,7 +9,7 @@ import java.io.Serializable;
  * Created by soedjede on 23/12/14 for Resto
  */
 public class Restaurant implements Serializable {
-    private String _id, name, description, url, tel, mail;
+    private String _id, name, description, url, tel, mail, _main_picture;
     private Position position;
     private Rating ratings;
 
@@ -89,6 +89,14 @@ public class Restaurant implements Serializable {
 
     public void setRatings(Rating ratings) {
         this.ratings = ratings;
+    }
+
+    public String get_main_picture() {
+        return _main_picture;
+    }
+
+    public void set_main_picture(String _main_picture) {
+        this._main_picture = _main_picture;
     }
 
     public void JsonRestaurantParse(JSONObject json_resto) throws JSONException {

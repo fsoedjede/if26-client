@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="@android:style/Theme.Holo">
+    <style name="AppTheme" parent="@android:style/Theme.Holo.Light">
         <item name="android:actionBarStyle">@style/MyActionBarNew</item>
         <item name="android:ratingBarStyle">@style/RatingBarAppTheme</item>
         <item name="android:ratingBarStyleSmall">@style/RatingBarSmallAppTheme</item>
@@ -9,7 +9,7 @@
         <item name="android:imageButtonStyle">@style/ImageButtonAppTheme</item>
     </style>
 
-    <style name="MyActionBarNew" parent="@android:style/Widget.Holo.ActionBar">
+    <style name="MyActionBarNew" parent="@android:style/Widget.Holo.Light.ActionBar">
         <item name="android:background">@drawable/ab_background_textured</item>
         <item name="android:titleTextStyle">@style/MyTheme.ActionBar.TitleTextStyle</item>
         <item name="android:subtitleTextStyle">@style/MyTheme.ActionBar.TitleTextStyle</item>

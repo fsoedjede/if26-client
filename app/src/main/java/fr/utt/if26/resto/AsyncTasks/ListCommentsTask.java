@@ -70,17 +70,13 @@ public class ListCommentsTask extends AsyncTask<String, Void, Boolean> {
                         comment.setRating(details.getInt("rating"));
                         comment.setPosted_at(details.getString("posted_at"));
 
-                        JSONObject author = details.getJSONObject("author");
+                        JSONObject author = details.getJSONObject("_author");
                         comment.setAuthor_name(author.getString("first_name") + " " + author.getString("last_name"));
                         comments.add(comment);
                     }
-                    try {
-                        ListCommentsAdapter adapter = new ListCommentsAdapter(context, R.layout.item_list_resto);
-                        adapter.addMultiple(comments);
-                        listener.hydrateListView(adapter);
-                    } catch (Exception ex) {
-                        Toast.makeText(context, R.string.error_unknown_source, Toast.LENGTH_SHORT).show();
-                    }
+                    ListCommentsAdapter adapter = new ListCommentsAdapter(context, R.layout.item_list_resto);
+                    adapter.addMultiple(comments);
+                    listener.hydrateListView(adapter);
                 } catch (Exception ex) {
                     Toast.makeText(context, R.string.error_unknown_source, Toast.LENGTH_SHORT).show();
                 }

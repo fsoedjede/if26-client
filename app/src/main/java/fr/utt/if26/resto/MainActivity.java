@@ -35,10 +35,6 @@ public class MainActivity extends Activity implements OnListTaskCompleted, Locat
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setTitle(R.string.title_restaurant_near_user);
-        //getOverflowMenu();
-        /*ActionBar bar = getSupportActionBar();
-        //Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.ab_background_textured);
-        bar.setBackgroundDrawable(getResources().getDrawable(R.drawable.ab_background_textured));*/
 
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         boolean enabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
@@ -74,6 +70,7 @@ public class MainActivity extends Activity implements OnListTaskCompleted, Locat
     protected void onResume() {
         super.onResume();
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 1, this);
+        invalidateOptionsMenu();
     }
 
     /* Remove the locationlistener updates when Activity is paused */
@@ -81,20 +78,6 @@ public class MainActivity extends Activity implements OnListTaskCompleted, Locat
     protected void onPause() {
         super.onPause();
         locationManager.removeUpdates(this);
-    }
-
-    private void getOverflowMenu() {
-
-        try {
-            ViewConfiguration config = ViewConfiguration.get(this);
-            Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
-            if (menuKeyField != null) {
-                menuKeyField.setAccessible(true);
-                menuKeyField.setBoolean(config, false);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     /*@Override

@@ -96,8 +96,11 @@ public class User {
         this.last_name = json_user.getString("last_name");
         this.password = null;
         this.salt = null;
-        Position pos = new Position();
-        pos.JsonPositionParse(json_user.getJSONObject("position"));
-        this.position = pos;
+        this.position = null;
+        if(json_user.has("position")){
+            Position pos = new Position();
+            pos.JsonPositionParse(json_user.getJSONObject("position"));
+            this.position = pos;
+        }
     }
 }

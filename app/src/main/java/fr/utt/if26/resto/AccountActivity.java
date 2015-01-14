@@ -34,8 +34,10 @@ public class AccountActivity extends Activity {
         account_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO : Logout action
-                Toast.makeText(getApplicationContext(), "Logout trying failed... Try later", Toast.LENGTH_SHORT).show();
+                // TODO : Logout with API action
+                Resto.user = null;
+                finish();
+                //Toast.makeText(getApplicationContext(), "Logout trying failed... Try later", Toast.LENGTH_SHORT).show();
             }
         });
     }

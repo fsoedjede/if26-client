@@ -78,25 +78,10 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.2"
                 android:gravity="start"
-                android:paddingTop="@dimen/activity_little_padding"
                 android:layout_marginStart="@dimen/activity_little_padding"
                 android:layout_marginLeft="@dimen/activity_little_padding"
                 android:text="@string/content_rating_count"
                 android:textSize="14sp" />
-
-            <RatingBar
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"
-                android:id="@+id/resto_rate"
-                style="?android:attr/ratingBarStyleSmall"
-                android:layout_gravity="end|top"
-                android:layout_marginTop="@dimen/activity_little_padding"
-                android:layout_marginEnd="@dimen/activity_little_padding"
-                android:layout_marginRight="@dimen/activity_little_padding"
-                android:numStars="5"
-                android:stepSize="1"
-                android:rating="4"
-                android:isIndicator="true" />
 
         </LinearLayout>
 
@@ -297,7 +282,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="150dp"
+                android:id="@+id/view_list_comments"
                 android:orientation="horizontal"
                 android:layout_marginTop="@dimen/activity_little_padding"
                 android:layout_marginBottom="@dimen/activity_little_padding"
@@ -309,8 +294,14 @@
 
                 <ListView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:id="@+id/list_comments"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/list_comments_none"
+                    android:padding="@dimen/activity_little_padding"
+                    android:textSize="14sp"/>
 
             </LinearLayout>
         </LinearLayout>

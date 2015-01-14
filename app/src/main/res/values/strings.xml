@@ -20,6 +20,7 @@
     <string name="title_activity_details_resto">Details Restaurant</string>
     <string name="content_readmore">Read more</string>
     <string name="title_activity_directions">Map</string>
+    <string name="title_activity_gallery">Pictures</string>
     <string name="hello_world">Hello world!</string>
 
 </resources>

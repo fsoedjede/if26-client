@@ -59,10 +59,8 @@ public class ListRestoAdapter extends ArrayAdapter {
         Restaurant resto = getItem(position);
         String name = resto.getName();
         String address = resto.getPosition().getAddress();
-        String telephone = resto.getTel();
-        String website = resto.getUrl();
 
-        double distance = MapsUtility.distance(resto.getPosition(), Resto.userPosition, 'K');
+        double distance = MapsUtility.haversine(resto.getPosition(), Resto.userPosition);
 
         TextView tv_distance = (TextView) row.findViewById(R.id.resto_distance);
         if(distance < 1) {
@@ -74,7 +72,8 @@ public class ListRestoAdapter extends ArrayAdapter {
         resto_rate.setRating((float)resto.getRatings().getTotal());
 
         TextView tv_description = (TextView) row.findViewById(R.id.resto_description);
-        if (website.length() < 5){
+        tv_description.setText(String.format("%s\n%s", name, address));
+        /*if (website.length() < 5){
         tv_description.setText(
                 String.format("%s\n%s\n"
                         + getContext().getString(R.string.item_content_telephone) + " : %s",
@@ -87,7 +86,7 @@ public class ListRestoAdapter extends ArrayAdapter {
                                     +getContext().getString(R.string.item_content_website)+" : %s",
                             name, address, telephone, website)
             );
-        }
+        }*/
         return row;
     }
 
