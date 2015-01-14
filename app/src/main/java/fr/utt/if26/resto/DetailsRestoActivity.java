@@ -1,16 +1,11 @@
 package fr.utt.if26.resto;
 
+import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.app.Activity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,20 +14,15 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.InputStream;
-import java.net.URL;
-
 import fr.utt.if26.resto.AsyncTasks.AddCommentTask;
 import fr.utt.if26.resto.AsyncTasks.ListCommentsTask;
 import fr.utt.if26.resto.Interfaces.OnListTaskCompleted;
-import fr.utt.if26.resto.Loaders.LoaderImageView;
 import fr.utt.if26.resto.Model.Position;
 import fr.utt.if26.resto.Model.Restaurant;
 import fr.utt.if26.resto.Tools.Utility;
@@ -47,10 +37,6 @@ public class DetailsRestoActivity extends Activity implements View.OnClickListen
     public static Position actual_position;
     private AlertDialog mAlertDialog;
     private String comment;
-
-    ImageView image_resto;
-    Bitmap bitmap;
-    ProgressDialog pDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -240,6 +226,7 @@ public class DetailsRestoActivity extends Activity implements View.OnClickListen
                 break;
             case R.id.image_add_picture:
                 Intent intent2 = new Intent(DetailsRestoActivity.this, GalleryActivity.class);
+                intent2.putExtra("fr.utt.if26._id", restaurant.get_id());
                 startActivity(intent2);
                 //Toast.makeText(v.getContext(), "You can add a new picture of the restaurant soon.", Toast.LENGTH_LONG).show();
                 break;
@@ -261,31 +248,4 @@ public class DetailsRestoActivity extends Activity implements View.OnClickListen
         invalidateOptionsMenu();
     }
 
-    private class LoadImage extends AsyncTask<String, String, Bitmap> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            pDialog = new ProgressDialog(DetailsRestoActivity.this);
-            pDialog.setMessage("Loading Image ....");
-            pDialog.show();
-        }
-        protected Bitmap doInBackground(String... args) {
-            Log.d("url image", args[0]);
-            try {
-                bitmap = BitmapFactory.decodeStream((InputStream) new URL(args[0]).getContent());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return bitmap;
-        }
-        protected void onPostExecute(Bitmap image) {
-            if(image != null){
-                image_resto.setImageBitmap(image);
-                pDialog.dismiss();
-            }else{
-                pDialog.dismiss();
-                Toast.makeText(DetailsRestoActivity.this, "Image Does Not exist or Network Error", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
 }

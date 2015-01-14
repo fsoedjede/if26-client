@@ -5,6 +5,9 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+
 import fr.utt.if26.resto.Model.Position;
 import fr.utt.if26.resto.Model.User;
 
@@ -22,6 +25,18 @@ public class Resto extends Application {
     public void onCreate() {
         super.onCreate();
         appContext = this;
+
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext())
+                .threadPoolSize(3)
+                .threadPriority(Thread.NORM_PRIORITY - 2)
+                .memoryCacheSize(1500000)
+                .discCacheSize(50000000)
+                .httpReadTimeout(100000)
+                .denyCacheImageMultipleSizesInMemory()
+                .build();
+        // Initialize ImageLoader with configuration.
+        ImageLoader.getInstance().init(config);
+        ImageLoader.getInstance().enableLogging();
     }
 
     public static Context getContext() {

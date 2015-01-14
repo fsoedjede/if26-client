@@ -1,6 +1,9 @@
 package fr.utt.if26.resto;
 
 import android.app.Activity;
+import android.app.SearchManager;
+import android.app.SearchableInfo;
+import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
@@ -10,25 +13,27 @@ import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewConfiguration;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.Toast;
 
-import java.lang.reflect.Field;
+import java.util.List;
 
 import fr.utt.if26.resto.AsyncTasks.ListRestoTask;
+import fr.utt.if26.resto.AsyncTasks.SearchListRestoTask;
 import fr.utt.if26.resto.Interfaces.OnListTaskCompleted;
 import fr.utt.if26.resto.Model.Position;
 import fr.utt.if26.resto.Model.Restaurant;
 
-public class MainActivity extends Activity implements OnListTaskCompleted, LocationListener {
+public class MainActivity extends Activity implements OnListTaskCompleted, LocationListener, SearchView.OnQueryTextListener {
 
     // UI references.
     private ListView lv_restos;
     public static Restaurant selected_restaurant = null;
     private LocationManager locationManager;
+    private SearchView mSearchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +101,10 @@ public class MainActivity extends Activity implements OnListTaskCompleted, Locat
             getMenuInflater().inflate(R.menu.menu_main, menu);
         else
             getMenuInflater().inflate(R.menu.menu_main_connected, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.action_menu_search);
+        mSearchView = (SearchView) searchItem.getActionView();
+        setupSearchView(searchItem);
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -122,6 +131,32 @@ public class MainActivity extends Activity implements OnListTaskCompleted, Locat
         return super.onOptionsItemSelected(item);
     }
 
+    private void setupSearchView(MenuItem searchItem) {
+
+        if (isAlwaysExpanded()) {
+            mSearchView.setIconifiedByDefault(false);
+        } else {
+            searchItem.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM
+                    | MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
+        }
+
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        if (searchManager != null) {
+            List<SearchableInfo> searchables = searchManager.getSearchablesInGlobalSearch();
+
+            SearchableInfo info = searchManager.getSearchableInfo(getComponentName());
+            for (SearchableInfo inf : searchables) {
+                if (inf.getSuggestAuthority() != null
+                        && inf.getSuggestAuthority().startsWith("applications")) {
+                    info = inf;
+                }
+            }
+            mSearchView.setSearchableInfo(info);
+        }
+
+        mSearchView.setOnQueryTextListener(this);
+    }
+
     @Override
     public void hydrateListView(ArrayAdapter adapter) {
         lv_restos.setAdapter(adapter);
@@ -133,18 +168,31 @@ public class MainActivity extends Activity implements OnListTaskCompleted, Locat
     }
 
     @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-
-    }
+    public void onStatusChanged(String provider, int status, Bundle extras) {}
 
     @Override
-    public void onProviderEnabled(String provider) {
-
-    }
+    public void onProviderEnabled(String provider) {}
 
     @Override
-    public void onProviderDisabled(String provider) {
+    public void onProviderDisabled(String provider) {}
 
+    public boolean onQueryTextChange(String newText) {
+        return false;
+    }
+
+    public boolean onQueryTextSubmit(String query) {
+        //TODO : Search action
+        if (Resto.isInternetconnected()) {
+            new SearchListRestoTask(this, MainActivity.this).execute(query);
+        } else {
+            Toast.makeText(this, R.string.network_no_access, Toast.LENGTH_LONG).show();
+        }
+        //mStatusView.setText("Query = " + query + " : submitted");
+        return false;
+    }
+
+    protected boolean isAlwaysExpanded() {
+        return false;
     }
 }
 
