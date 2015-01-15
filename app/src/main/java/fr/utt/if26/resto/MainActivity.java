@@ -181,7 +181,6 @@ public class MainActivity extends Activity implements OnListTaskCompleted, Locat
     }
 
     public boolean onQueryTextSubmit(String query) {
-        //TODO : Search action
         if (Resto.isInternetconnected()) {
             new SearchListRestoTask(this, MainActivity.this).execute(query);
         } else {

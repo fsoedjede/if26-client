@@ -22,5 +22,6 @@
     <string name="title_activity_directions">Map</string>
     <string name="title_activity_gallery">Pictures</string>
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_image_gallery">Photo gallery</string>
 
 </resources>

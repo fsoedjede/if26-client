@@ -14,11 +14,18 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.nostra13.universalimageloader.core.DecodingType;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.FailReason;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoadingListener;
 
 import fr.utt.if26.resto.AsyncTasks.AddCommentTask;
 import fr.utt.if26.resto.AsyncTasks.ListCommentsTask;
@@ -38,6 +45,8 @@ public class DetailsRestoActivity extends Activity implements View.OnClickListen
     private AlertDialog mAlertDialog;
     private String comment;
 
+    protected ImageLoader imageLoader = ImageLoader.getInstance();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,8 +63,36 @@ public class DetailsRestoActivity extends Activity implements View.OnClickListen
         setTitle(restaurant.getName());
         lv_comments = (ListView) findViewById(R.id.list_comments);
 
-        /*image_resto = (ImageView) findViewById(R.id.image_resto);
-        new LoadImage().execute(Resto.server_address + "/photos/" + restaurant.get_main_picture() + "/data");*/
+        final ImageView image_resto = (ImageView) findViewById(R.id.image_resto);
+        //new LoadImage().execute(Resto.server_address + "/photos/" + restaurant.get_main_picture() + "/data");*/
+        DisplayImageOptions options = new DisplayImageOptions.Builder()
+                .showStubImage(R.drawable.ajax_loader)
+                .cacheInMemory()
+                .cacheOnDisc()
+                .decodingType(DecodingType.FAST)
+                .build();
+        imageLoader.displayImage(Resto.server_address + "/photos/" + restaurant.get_main_picture() + "/data", image_resto, options, new ImageLoadingListener() {
+            @Override
+            public void onLoadingStarted() {
+                // do nothing
+            }
+
+            @Override
+            public void onLoadingFailed(FailReason failReason) {
+                image_resto.setImageResource(R.drawable.restaurant_1);
+                switch (failReason) {
+                    case MEMORY_OVERFLOW:
+                        imageLoader.clearMemoryCache();
+                        break;
+                }
+            }
+
+            @Override
+            public void onLoadingComplete() {
+                // do nothing
+                imageLoader.stop();
+            }
+        });
 
         try {
             if (restaurant.getRatings().getReceived() == 0) {
@@ -100,11 +137,12 @@ public class DetailsRestoActivity extends Activity implements View.OnClickListen
         } else {
             Toast.makeText(this, R.string.network_no_access, Toast.LENGTH_LONG).show();
         }
+    }
 
-        /*Bundle bundle = new Bundle();
-        bundle.putString("r_id", restaurant.get_id());
-        ListCommentsFragment fragment = new ListCommentsFragment();
-        fragment.setArguments(bundle);*/
+    @Override
+    protected void onDestroy() {
+        imageLoader.stop();
+        super.onDestroy();
     }
 
 

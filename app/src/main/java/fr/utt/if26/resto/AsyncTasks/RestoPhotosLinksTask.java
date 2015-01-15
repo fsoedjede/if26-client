@@ -44,7 +44,7 @@ public class RestoPhotosLinksTask extends AsyncTask<String, Void, Boolean> {
                     String[] imageUrls = new String[photos_array.length()];
                     for (int i = 0; i < photos_array.length(); i++) {
                         JSONObject photos = photos_array.getJSONObject(i);
-                        imageUrls[0] = Resto.server_address + "/photos/" + photos.getString("_image") + "/data";
+                        imageUrls[i] = Resto.server_address + "/photos/" + photos.getString("_id") + "/data";
                     }
                     listener.getPhotosURLs(imageUrls);
                 } catch (Exception ex) {

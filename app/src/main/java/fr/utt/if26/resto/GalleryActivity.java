@@ -1,21 +1,16 @@
 package fr.utt.if26.resto;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.ImageView;
+import android.widget.Toast;
 
-import com.nostra13.universalimageloader.core.DecodingType;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.FailReason;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoadingListener;
+import java.util.Arrays;
 
+import fr.utt.if26.resto.Adapters.ImageGalleryAdapter;
 import fr.utt.if26.resto.AsyncTasks.RestoPhotosLinksTask;
 import fr.utt.if26.resto.Interfaces.OnRestoPhotoLinksTaskCompleted;
 
@@ -24,9 +19,7 @@ import fr.utt.if26.resto.Interfaces.OnRestoPhotoLinksTaskCompleted;
  */
 public class GalleryActivity extends Activity implements OnRestoPhotoLinksTaskCompleted {
 
-    protected ImageLoader imageLoader = ImageLoader.getInstance();
     private String[] imageUrls;
-    //private GridView gridview = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,71 +42,39 @@ public class GalleryActivity extends Activity implements OnRestoPhotoLinksTaskCo
 
     @Override
     protected void onDestroy() {
-        imageLoader.stop();
         super.onDestroy();
     }
 
     @Override
     public void getPhotosURLs(String[] URLs) {
         imageUrls = URLs;
+        imageUrls = append(imageUrls, "addnew");
         GridView gridView = (GridView) findViewById(R.id.gridview);
-        gridView.setAdapter(new ImageAdapter());
+        gridView.setAdapter(new ImageGalleryAdapter(imageUrls, getLayoutInflater()));
+
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                if(imageUrls[position].equals("addnew")) {
+                    Toast.makeText(GalleryActivity.this, "You could add a picture soon", Toast.LENGTH_SHORT).show();
+                } else {
+                    startImageGalleryActivity(position);
+                }
+            }
+        });
     }
 
-    public class ImageAdapter extends BaseAdapter {
-        @Override
-        public int getCount() {
-            return imageUrls.length;
-        }
+    private void startImageGalleryActivity(int position) {
+        Intent intent = new Intent(this, ImageGalleryActivity.class);
+        intent.putExtra("fr.utt.if26.photoURLs", Arrays.copyOfRange(imageUrls, 0, imageUrls.length - 1));
+        intent.putExtra("fr.utt.if26.position", position);
+        startActivity(intent);
+    }
 
-        @Override
-        public Object getItem(int position) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            final ImageView imageView;
-            if (convertView == null) {
-                imageView = (ImageView) getLayoutInflater().inflate(R.layout.item_gallery_image, parent, false);
-            } else {
-                imageView = (ImageView) convertView;
-            }
-
-            DisplayImageOptions options = new DisplayImageOptions.Builder()
-                    .showStubImage(R.drawable.ajax_loader)
-                    .cacheInMemory()
-                    .cacheOnDisc()
-                    .decodingType(DecodingType.FAST)
-                    .build();
-            imageLoader.displayImage(imageUrls[position], imageView, options, new ImageLoadingListener() {
-                @Override
-                public void onLoadingStarted() {
-                    // do nothing
-                }
-
-                @Override
-                public void onLoadingFailed(FailReason failReason) {
-                    imageView.setImageResource(android.R.drawable.ic_delete);
-                    switch (failReason) {
-                        case MEMORY_OVERFLOW:
-                            imageLoader.clearMemoryCache();
-                            break;
-                    }
-                }
-
-                @Override
-                public void onLoadingComplete() {
-                    // do nothing
-                }
-            });
-            return imageView;
-        }
+    static <T> T[] append(T[] arr, T element) {
+        final int N = arr.length;
+        arr = Arrays.copyOf(arr, N + 1);
+        arr[N] = element;
+        return arr;
     }
 
 }
