@@ -25,4 +25,6 @@
     <string name="content_comment_added">Comment added successfully</string>
     <string name="content_comment_missing">Please write your comment</string>
 
+    <string name="content_picture_added">Picture added successfully</string>
+
 </resources>

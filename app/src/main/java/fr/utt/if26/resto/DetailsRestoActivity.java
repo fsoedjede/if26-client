@@ -1,6 +1,5 @@
 package fr.utt.if26.resto;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -8,7 +7,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -32,10 +30,10 @@ import fr.utt.if26.resto.AsyncTasks.ListCommentsTask;
 import fr.utt.if26.resto.Interfaces.OnListTaskCompleted;
 import fr.utt.if26.resto.Model.Position;
 import fr.utt.if26.resto.Model.Restaurant;
-import fr.utt.if26.resto.Tools.Utility;
+import fr.utt.if26.resto.Tools.ListViewUtility;
 
 
-public class DetailsRestoActivity extends Activity implements View.OnClickListener, OnListTaskCompleted {
+public class DetailsRestoActivity extends BaseActivity implements View.OnClickListener, OnListTaskCompleted {
 
     private ListView lv_comments;
     private Restaurant restaurant;
@@ -55,8 +53,6 @@ public class DetailsRestoActivity extends Activity implements View.OnClickListen
         if (Resto.user == null) {
             LinearLayout layout = (LinearLayout)findViewById(R.id.layout_write_comment);
             layout.setVisibility(View.GONE);
-            ImageButton image_add_picture = (ImageButton) findViewById(R.id.image_add_picture);
-            image_add_picture.setVisibility(View.GONE);
         }
 
         restaurant = MainActivity.selected_restaurant;
@@ -153,42 +149,11 @@ public class DetailsRestoActivity extends Activity implements View.OnClickListen
             getMenuInflater().inflate(R.menu.menu_main_connected, menu);
             LinearLayout layout = (LinearLayout)findViewById(R.id.layout_write_comment);
             layout.setVisibility(View.VISIBLE);
-            ImageButton image_add_picture = (ImageButton) findViewById(R.id.image_add_picture);
-            image_add_picture.setVisibility(View.VISIBLE);
         } else {
             getMenuInflater().inflate(R.menu.menu_main, menu);
         }
         menu.getItem(0).setVisible(false);
         return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.closeButton:
-            case android.R.id.home:
-                finish();
-                overridePendingTransition(R.anim.anim_slide_in_right, R.anim.anim_slide_out_right);
-                break;
-            case R.id.action_menu_login_register:
-                Intent intent = new Intent(this, LoginActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
-                break;
-            case R.id.action_menu_profile:
-                Intent intent2 = new Intent(this, AccountActivity.class);
-                startActivity(intent2);
-                overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
-                break;
-            case R.id.action_menu_about:
-                // about
-                break;
-            case R.id.action_menu_help:
-                // help action
-                break;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -199,7 +164,7 @@ public class DetailsRestoActivity extends Activity implements View.OnClickListen
             TextView tv_no_comment = (TextView) findViewById(R.id.list_comments_none);
             tv_no_comment.setText("No comment found. Add your own now ...");
         }
-        Utility.setListViewHeightBasedOnChildren(lv_comments);
+        ListViewUtility.setListViewHeightBasedOnChildren(lv_comments);
     }
 
     public void openWebPage(String url) {

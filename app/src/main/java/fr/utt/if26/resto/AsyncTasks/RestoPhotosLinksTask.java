@@ -46,7 +46,7 @@ public class RestoPhotosLinksTask extends AsyncTask<String, Void, Boolean> {
                         JSONObject photos = photos_array.getJSONObject(i);
                         imageUrls[i] = Resto.server_address + "/photos/" + photos.getString("_id") + "/data";
                     }
-                    listener.getPhotosURLs(imageUrls);
+                    listener.getPhotosURLs(imageUrls, null);
                 } catch (Exception ex) {
                     Toast.makeText(context, R.string.error_unknown_source, Toast.LENGTH_SHORT).show();
                 }

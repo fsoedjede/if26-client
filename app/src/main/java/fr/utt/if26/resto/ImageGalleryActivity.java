@@ -1,13 +1,12 @@
 package fr.utt.if26.resto;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 
 import fr.utt.if26.resto.Adapters.ImagePagerAdapter;
 
 
-public class ImageGalleryActivity extends Activity {
+public class ImageGalleryActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

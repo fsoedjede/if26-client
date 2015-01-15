@@ -21,7 +21,7 @@ import fr.utt.if26.resto.Tools.MapsUtility;
  */
 public class ListRestoAdapter extends ArrayAdapter {
 
-    private List<Restaurant> restos = new ArrayList<Restaurant>();
+    private List<Restaurant> restos = new ArrayList<>();
 
     public ListRestoAdapter(Context context, int resource) {
         super(context, resource);
@@ -69,7 +69,7 @@ public class ListRestoAdapter extends ArrayAdapter {
             tv_distance.setText(String.format("%.2f", distance) + " km");
         }
         RatingBar resto_rate = (RatingBar) row.findViewById(R.id.resto_rate);
-        resto_rate.setRating((float)resto.getRatings().getTotal());
+        resto_rate.setRating((float)resto.getRatings().getReceived());
 
         TextView tv_description = (TextView) row.findViewById(R.id.resto_description);
         tv_description.setText(String.format("%s\n%s", name, address));

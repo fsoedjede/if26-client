@@ -1,6 +1,5 @@
 package fr.utt.if26.resto;
 
-import android.app.Activity;
 import android.app.SearchManager;
 import android.app.SearchableInfo;
 import android.content.Context;
@@ -27,7 +26,7 @@ import fr.utt.if26.resto.Interfaces.OnListTaskCompleted;
 import fr.utt.if26.resto.Model.Position;
 import fr.utt.if26.resto.Model.Restaurant;
 
-public class MainActivity extends Activity implements OnListTaskCompleted, LocationListener, SearchView.OnQueryTextListener {
+public class MainActivity extends BaseActivity implements OnListTaskCompleted, LocationListener, SearchView.OnQueryTextListener {
 
     // UI references.
     private ListView lv_restos;
@@ -85,15 +84,6 @@ public class MainActivity extends Activity implements OnListTaskCompleted, Locat
         locationManager.removeUpdates(this);
     }
 
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        if(Resto.user == null)
-            getMenuInflater().inflate(R.menu.menu_main, menu);
-        else
-            getMenuInflater().inflate(R.menu.menu_main_connected, menu);
-        return true;
-    }*/
-
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         menu.clear();
@@ -106,29 +96,6 @@ public class MainActivity extends Activity implements OnListTaskCompleted, Locat
         mSearchView = (SearchView) searchItem.getActionView();
         setupSearchView(searchItem);
         return super.onPrepareOptionsMenu(menu);
-    }
-
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_menu_login_register:
-                Intent intent = new Intent(this, LoginActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
-                break;
-            case R.id.action_menu_profile:
-                Intent intent2 = new Intent(this, AccountActivity.class);
-                startActivity(intent2);
-                overridePendingTransition(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
-                break;
-            case R.id.action_menu_about:
-                // about
-                break;
-            case R.id.action_menu_help:
-                // help action
-                break;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     private void setupSearchView(MenuItem searchItem) {

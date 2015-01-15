@@ -1,5 +1,6 @@
 package fr.utt.if26.resto.Adapters;
 
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,10 +23,12 @@ public class ImageGalleryAdapter extends BaseAdapter {
     protected ImageLoader imageLoader = ImageLoader.getInstance();
     private String[] images;
     private LayoutInflater inflater;
+    Bitmap mImageBitmap;
 
-    public ImageGalleryAdapter(String[] images, LayoutInflater inflater) {
+    public ImageGalleryAdapter(String[] images, LayoutInflater inflater, Bitmap mImageBitmap) {
         this.images = images;
         this.inflater = inflater;
+        this.mImageBitmap = mImageBitmap;
     }
     @Override
     public int getCount() {
@@ -53,34 +56,38 @@ public class ImageGalleryAdapter extends BaseAdapter {
         if(images[position].equals("addnew")){
             imageView.setImageResource(R.drawable.image_add);
         } else {
-            DisplayImageOptions options = new DisplayImageOptions.Builder()
-                    .showStubImage(R.drawable.ajax_loader)
-                    .cacheInMemory()
-                    .cacheOnDisc()
-                    .decodingType(DecodingType.FAST)
-                    .build();
-            imageLoader.displayImage(images[position], imageView, options, new ImageLoadingListener() {
-                @Override
-                public void onLoadingStarted() {
-                    // do nothing
-                }
-
-                @Override
-                public void onLoadingFailed(FailReason failReason) {
-                    imageView.setImageResource(android.R.drawable.ic_delete);
-                    switch (failReason) {
-                        case MEMORY_OVERFLOW:
-                            imageLoader.clearMemoryCache();
-                            break;
+            if (images[position].equals("mypicture")){
+                imageView.setImageBitmap(mImageBitmap);
+            } else {
+                DisplayImageOptions options = new DisplayImageOptions.Builder()
+                        .showStubImage(R.drawable.ajax_loader)
+                        .cacheInMemory()
+                        .cacheOnDisc()
+                        .decodingType(DecodingType.FAST)
+                        .build();
+                imageLoader.displayImage(images[position], imageView, options, new ImageLoadingListener() {
+                    @Override
+                    public void onLoadingStarted() {
+                        // do nothing
                     }
-                }
 
-                @Override
-                public void onLoadingComplete() {
-                    // do nothing
-                    imageLoader.stop();
-                }
-            });
+                    @Override
+                    public void onLoadingFailed(FailReason failReason) {
+                        imageView.setImageResource(android.R.drawable.ic_delete);
+                        switch (failReason) {
+                            case MEMORY_OVERFLOW:
+                                imageLoader.clearMemoryCache();
+                                break;
+                        }
+                    }
+
+                    @Override
+                    public void onLoadingComplete() {
+                        // do nothing
+                        imageLoader.stop();
+                    }
+                });
+            }
         }
         return imageView;
     }
